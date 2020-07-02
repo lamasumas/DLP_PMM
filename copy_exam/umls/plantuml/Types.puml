@@ -1,0 +1,152 @@
+@startuml Types
+class ArrayType{
+    - int theLine
+    - int theColumn
+    - int theSize
+    - Type theType
+    + R accept(Visitor<R,T> v, T param)
+    + Type squareBrackets(Type otherType)
+    + int getByteSize()
+    + FieldDefinition getField()
+    + String getTypeString()
+}
+class CharType{
+    + R accept(Visitor<R,T> v, T param)
+    + Type promotesTo(Type otherType)
+    + boolean isBuiltInType()
+    + Type canBeCast(Type otherType)
+    + int getByteSize()
+    + boolean isValidReturnType(Type otherReturnType)
+    + String getTypeString()
+}
+class DoubleType{
+    + R accept(Visitor<R,T> v, T param)
+    + Type arithmetic(Type otherType)
+    + Type comparison(Type otherType)
+    + Type promotesTo(Type otherType)
+    + boolean isBuiltInType()
+    + Type canBeCast(Type otherType)
+    + boolean isValidReturnType(Type otherType)
+    + Type arithmetic(int errorline)
+    + int getByteSize()
+    + String getTypeString()
+}
+class ErrorType{
+    - String message 
+    - ErrorHandler eh 
+    + String getMessage()
+    + R accept(Visitor<R,T> v, T param)
+    + Type arithmetic(Type otherType)
+    + boolean isValidReturnType(Type otherType)
+    + Type comparison(Type otherType)
+    + Type logic(Type otherType, int errorline)
+    + Type logic(int errorline)
+    + Type promotesTo(Type otherType)
+    + Type canBeCast(Type otherType)
+    + Type squareBrackets(Type otherType)
+    + Type dot(String theField)
+    + Type parenthesis(List<Expression> param, int errorline)
+    + Type arithmetic(int errorline)
+}
+class FieldDefinition{
+    - String fieldName
+    - Type fieldType
+    - int offset
+    + String getFieldName()
+    + Type getFieldType()
+    + R accept(Visitor<R,T> v, T param)
+    + int getByteSize()
+    + int getOffset()
+    + void setOffset()
+    + String getTypeString()
+}
+class FuncType{
+    - Type returnType 
+    - List<VarDefinition> params
+    + Type getReturnType()
+    + List<VarDefinition> getParams()
+    + R accept(Visitor<R,T> v, T param)
+    + boolean isBuiltInType()
+    + Type parenthesis(List<Expression> param, int errorline)
+    + boolean isValidReturnType(Type otherReturn)
+    + int getByteSize()
+}
+class IntType{
+    + boolean isLogic()
+    + R accept(Visitor<R,T> v, T param)
+    + Type arithmetic(Type otherType)
+    + Type comparison(Type otherType)
+    + Type logic(int line)
+    + Type logic(Type otherType, int errorline)
+    + Type promotesTo(Type otherType)
+    + boolean isBuiltInType()
+    + Type canBeCast(Type otherType)
+    + boolean isValidReturnType(Type otherReturn)
+    + Type arithmetic(int errorline)
+    + int getByteSize()
+    + String getTypeString()
+
+}
+class StrucType{
+    - List<FieldDefinition> fieldDefinitionList
+    + List<FieldDefinition> getFieldDefinitionList()
+    + R accept(Visitor<R,T> v, T param)
+    + Type dot(String theField)
+    + int getByteSize()
+    + String getTypeString()
+}
+class VoidType{
+    + R accept(Visitor<R,T> v, T param)
+    + boolean isValidReturnType(Type otherReturn)
+}
+
+class Cast {
+    - Type theType
+    - Expression theExpression
+    + R accept(Visitor<R,T> v, T param)
+    + Expression getTheExpression()
+    + Type getTheType()
+}
+
+interface Type{
+    boolean isLogic()
+    Type logic(Type otherType, int errorline)
+    Type logic(int errorline)
+    Type arithmetic(Type otherType)
+    Type arithmetic(int errorline)
+    Type comparison(Type otherType)
+    Type promotesTo(Type otherType)
+    boolean isBuiltInType()
+    Type canBeCast(Type otherType)
+    Type squareBrackets(Type otherType)
+    Type dot(String theField)
+    Type parenthesis(List<Expression> param, int errorline)
+    int getByteSize()
+    boolean isValidReturnType(Type otherReturn)
+    String getTypeString();
+    
+}
+
+note top of Type: This interface is implemented  an Abstract class \n and then this abstrac class is extended by each class.
+
+interface ASTNode{
+    int getLine
+    int getColumn
+     R accept(Visitor<R,T> v, T param)
+}
+
+Type <|.. IntType
+Type <|.. CharType
+Type <|.. StrucType
+Type <|..  FuncType
+Type <|.. ErrorType 
+Type <|..  DoubleType
+Type <|.. VoidType
+Type <|..  ArrayType
+
+StrucType o--"n" FieldDefinition
+Type "1"--o FieldDefinition
+FuncType o--"1" Type : Return type
+Type "1"--o Cast
+ASTNode <-- Type
+@enduml

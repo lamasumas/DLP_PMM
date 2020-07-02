@@ -1,0 +1,156 @@
+@startuml Expression
+
+class Variable {
+    - String name
+    - VarDefinition varDefinition
+    + void setName(String name)
+    + VarDefinition getVarDefinition()
+    + void setVarDefinition(VarDefinition varDefinition)
+    + R accept(Visitor<R,T> v, T param)
+    + String getName()
+}
+
+class UnaryMinus {
+    - Expression expression
+    + Expression getExpression()
+    + R accept(Visitor<R,T> v, T param)
+
+}
+class AndOr {
+    - String operator
+    - Expression leftExpression
+    - Expression rightExpression
+    + R accept(Visitor<R,T> v, T param)
+    + String getOperator()
+    + Expression getLeftExpression()
+    + Expression getRightExpression()
+}
+class Cast {
+    - Type theType
+    - Expression theExpression
+    + R accept(Visitor<R,T> v, T param)
+    + Expression getTheExpression()
+    + Type getTheType()
+}
+class Not {
+    - Expression theExpression
+    + R accept(Visitor<R,T> v, T param)
+    + Expression getTheExpression()
+}
+class ArrayAccess {
+    - Expression leftExpression
+    - Expression rightExpression
+    + R accept(Visitor<R,T> v, T param)
+    + Expression getLeftExpression()
+    + Expression getRightExpression()
+}
+class FieldAccess {
+    - Expression leftExpression
+    - Expression rightExpression
+    + R accept(Visitor<R,T> v, T param)
+    + Expression getLeftExpression()
+    + Expression getRightExpression()
+}
+
+class Comparison {
+    - String operator
+    - Expression leftExpression
+    - Expression rightExpression
+    + R accept(Visitor<R,T> v, T param)
+    + String getOperator()
+    + Expression getLeftExpression()
+    + Expression getRightExpression()
+}
+
+class RealLiteral {
+    - double value
+    + R accept(Visitor<R,T> v, T param)
+    + double getValue()
+}
+
+
+class IntLiteral {
+    - int value
+    + R accept(Visitor<R,T> v, T param)
+    + int getValue()
+}
+
+class CharLiteral {
+    - char value
+    + R accept(Visitor<R,T> v, T param)
+    + char getValue()
+}
+
+class Arithmetic {
+    - String operator
+    - Expression leftExpression
+    - Expression rightExpression
+    + R accept(Visitor<R,T> v, T param)
+    + String getOperator()
+    + Expression getLeftExpression()
+    + Expression getRightExpression()
+}
+
+interface ASTNode{
+    int getLine
+    int getColumn
+     R accept(Visitor<R,T> v, T param)
+}
+
+class FunctionInvocation{
+    - List<Expression> expressionList
+    - FunctionDefinition functionDefinition
+    + FunctionDefinition getFunctionDefinition()
+    + void setFunctionDefinition(FunctionDefinition functionDefinition)
+    + R accept(Visitor<R,T> v, T param)
+    + List<Expression> getExpressionList()
+
+}
+
+interface Expression{
+    void setLvalue(boolean lvalue)
+    boolean isLvalue()
+    Type getType()
+    void setType(Type theType)
+}
+note top of Expression:  This interface is implemented  an Abstract class \n and then this abstrac class is extended by each class.
+interface Statement
+
+Expression <|.. FunctionInvocation
+Statement <|.. FunctionInvocation
+FunctionInvocation --> Variable
+Expression "n"--o FunctionInvocation
+
+Expression <|.. Variable
+
+Expression <|.. UnaryMinus
+Expression "1"--o UnaryMinus
+
+Expression <|.. AndOr
+Expression "2"--o AndOr
+
+Expression <|.. Cast
+Expression "2"--o Cast
+
+Expression <|.. Not
+Expression "1"--o Not
+
+Expression <|.. ArrayAccess
+Expression "2"--o ArrayAccess
+
+Expression <|.. FieldAccess
+
+Expression <|.. Comparison
+Expression "2"--o Comparison
+
+Expression <|.. RealLiteral
+
+Expression <|.. IntLiteral
+
+Expression <|.. CharLiteral
+
+Expression <|.. Arithmetic
+Expression "2"--o Arithmetic
+
+ASTNode <-- Expression
+@enduml

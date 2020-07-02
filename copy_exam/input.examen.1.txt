@@ -1,0 +1,45 @@
+"""
+Modificar el compilador de Pmm para permitir la inicializacion de las variables en su declaración.
+	- Se podrán inicializar variables globales y locales.
+	- Solamente podran inicializarse variables de tipo basico.
+	- Solamente podran inicializarse mediante literales.
+"""
+"""
+Modify your Pmm compiler to allow initialization of variables in its definition.
+- Both global and local variables can be initialized.
+- Only variables of builtin types can be initialized.
+- Only literal values can be used for the initialization.
+"""
+
+g:char = 'g';
+
+def right():{
+    c:char = 'c';	
+    i,j:int = 1;
+	k:int;
+	k = i;
+    print 'g', '=', g ,'\n';   # g
+    print 'c', '=', c ,'\n';   # c
+    print 'i', '=', i ,'\n';   # 1
+    print 'j', '=', j ,'\n';   # 1
+	print 'k', '=', k ,'\n';   # 1
+    g = 'G';
+    c = 'C';
+    i = 2;
+    print 'g', '=', g ,'\n';   # G
+    print 'c', '=', c ,'\n';   # C
+    print 'i', '=', i ,'\n';   # 2
+    print 'j', '=', j ,'\n';   # 2
+}
+
+"""
+def wrong():{
+    c:char = 1;					# Compilation error
+    b:int = 4 + 5;				# Compilation error
+    r:double = (double)b;		# Compilation error
+}
+"""
+
+def main(): {
+    right();
+}

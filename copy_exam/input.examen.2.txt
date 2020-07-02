@@ -1,0 +1,46 @@
+"""
+Modificar el compilador de Pmm para poder establecer valores por defecto en los parametros.
+	- Los parametros con valor por defecto deberan ser declarados en ultimo lugar.
+	- Solamente podran utilizarse valores literales.
+	- Si el numero de parametros de una invocacion es inferior el numero de parametros definidos, 
+		se completara por orden con los valores por defecto.
+"""
+"""
+Modify your Pmm compiler to allow parameters with default values.
+- Parameters with default value must be the last ones.
+- Only literal values can be used as default values.
+- When an invocation does not have enough parameters, the default values will be used to complete it.
+"""
+# The pow function returns the base to the exponent power.
+# The default exponent is 2 if no value is passed.
+def pow(base:int, exponent:int=2):int {
+    i, result:int;
+    result = 1;
+    i = 0;
+    while i < exponent: {
+        result = result * base;
+        i = i + 1;
+    }
+    return result;
+}
+
+def right():{
+    print pow(3), '\n';     # 9
+    print pow(3,3), '\n';   # 27
+}
+
+"""
+def wrong():{
+    print pow(), '\n';          # Compilation error
+    print pow(3.5), '\n';       # Compilation error
+    print pow(3,3.5), '\n';     # Compilation error
+}
+
+def wrong2(i:int=4.5): {} 		# Compilation error
+def wrong3(i:int=4,j:int): {} 	# Compilation error
+def wrong4(i:int=g){}			# Compilation error
+"""
+
+def main(): {
+    right();
+}

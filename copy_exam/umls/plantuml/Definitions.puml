@@ -1,0 +1,57 @@
+@startuml Definitions 
+class VarDefinition{
+    - int offset
+    + R accept(Visitor<R,T> v, T param)
+    + void checkDupliclateNames(List<String> varNames, int xline, int xColumn)
+    + void setOffset(int offset)
+    + int getOffset()
+}
+
+class FunctionDefinition{
+    - List<VarDefinition> definitionList
+    - List<Statement> statementList
+    + R accept(Visitor<R,T> v, T param)
+    + List<VarDefinition> getDefinitionList()
+    + List<Statement> getStatementList()
+}
+
+interface Statement
+
+interface Expression{
+    void setLvalue(boolean lvalue)
+    boolean isLvalue()
+    Type getType()
+    void setType(Type theType)
+}
+
+interface ASTNode{
+    int getLine
+    int getColumn
+    R accept(Visitor<R,T> v, T param)
+}
+
+interface Definition{
+    Type getType()
+    String getName()
+    void setScope()
+    int getScope()
+}
+
+note top of Definition:  This interface is implemented  an Abstract class \n and then this abstrac class is extended by each class.
+
+Definition <|.. VarDefinition
+Definition <|.. FunctionDefinition
+Statement <|.. VarDefinition
+
+ASTNode <-- Definition
+ASTNode <-- Statement
+ASTNode <-- Expression
+
+VarDefinition o--"1" Expression
+FunctionDefinition o--"n" VarDefinition
+FunctionDefinition o--"0*" Statement
+
+
+
+
+@enduml 

@@ -1,0 +1,54 @@
+
+@startuml General
+class Program{
+
+}
+
+interface Type{
+    boolean isLogic()
+    Type logic(Type otherType, int errorline)
+    Type logic(int errorline)
+    Type arithmetic(Type otherType)
+    Type arithmetic(int errorline)
+    Type comparison(Type otherType)
+    Type promotesTo(Type otherType)
+    boolean isBuiltInType()
+    Type canBeCast(Type otherType)
+    Type squareBrackets(Type otherType)
+    Type dot(String theField)
+    Type parenthesis(List<Expression> param, int errorline)
+    int getByteSize()
+    boolean isValidReturnType(Type otherReturn)
+    
+}
+
+interface Expression{
+    void setLvalue(boolean lvalue)
+    boolean isLvalue()
+    Type getType()
+    void setType(Type theType)
+}
+interface Statement
+
+interface Definition{
+    Type getType()
+    String getName()
+    void setScope()
+    int getScope()
+}
+interface ASTNode{
+    int getLine
+    int getColumn
+     R accept(Visitor<R,T> v, T param)
+}
+
+
+ ASTNode <|.. Program
+ ASTNode <-- Statement
+ ASTNode <-- Type
+ ASTNode <-- Expression
+ASTNode <-- Definition
+
+ Program o--"n" Definition
+
+@enduml
